@@ -8,7 +8,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
     [SerializeField]
+    private float projectileSpeed = 10f;
+    [SerializeField]
     private float padding = 1f;
+    [SerializeField]
+    private GameObject lazerPrefab;
+    [SerializeField]
+    private float projectileFiringPeriod = 0.1f;
+
+    Coroutine firingCoroutine;
 
     float xMin;
     float xMax;
@@ -25,6 +33,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        Fire();
     }
     #endregion
 
@@ -49,6 +58,30 @@ public class Player : MonoBehaviour
         var newXPos = Mathf.Clamp(transform.position.x + deltaX, xMin, xMax);
         var newYPos = Mathf.Clamp(transform.position.y + deltaY, yMin, yMax);
         transform.position = new Vector2(newXPos, newYPos);
+    }
+
+    //Player fire / attack function
+    //Using coroutines, player can hold down fire button to continously fire
+    private void Fire() {
+        if (Input.GetButtonDown("Fire1")) {
+            firingCoroutine = StartCoroutine(FireContiniuously());
+        }
+
+        if (Input.GetButtonUp("Fire1")) {
+            //StopAllCoroutine();
+            StopCoroutine(firingCoroutine);
+        }
+    }
+
+    //Firing coroutine function
+    //Not using object pooling yet and instead spawns a prefab everytime this function is called
+    //Object is given a velocity
+    IEnumerator FireContiniuously() {
+        while (true) {
+            GameObject lazer = Instantiate(lazerPrefab, transform.position, Quaternion.identity) as GameObject;
+            lazer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+            yield return new WaitForSeconds(projectileFiringPeriod);
+        }
     }
     #endregion
 }
