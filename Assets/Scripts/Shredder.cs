@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Shredder : MonoBehaviour
 {
+    //Simple, just destroy anything that enters the trigger gameobject
     private void OnTriggerEnter2D(Collider2D collision) {
         Destroy(collision.gameObject);
     }
