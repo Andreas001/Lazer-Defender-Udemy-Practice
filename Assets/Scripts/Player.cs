@@ -6,11 +6,17 @@ public class Player : MonoBehaviour
 {
     #region Player Variables
     [SerializeField]
+    private float health = 500f;
+
+    [Header("Player Movement")]
+    [SerializeField]
     private float moveSpeed = 10f;
     [SerializeField]
-    private float projectileSpeed = 10f;
-    [SerializeField]
     private float padding = 1f;
+
+    [Header("Player Projectile")]
+    [SerializeField]
+    private float projectileSpeed = 10f;
     [SerializeField]
     private GameObject lazerPrefab;
     [SerializeField]
@@ -81,6 +87,21 @@ public class Player : MonoBehaviour
             GameObject lazer = Instantiate(lazerPrefab, transform.position, Quaternion.identity) as GameObject;
             lazer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
             yield return new WaitForSeconds(projectileFiringPeriod);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        DamageDealer damageDealer = collision.gameObject.GetComponent<DamageDealer>();
+        if(!damageDealer) { return; }
+        ProcessHit(damageDealer);
+    }
+
+    private void ProcessHit(DamageDealer damageDealer) {
+        health -= damageDealer.GetDamage();
+        damageDealer.Hit();
+
+        if (health <= 0) {
+            Destroy(gameObject);
         }
     }
     #endregion
