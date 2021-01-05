@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5606815512720915048}
   - component: {fileID: -2484887252261811752}
   - component: {fileID: -4714047320183899323}
+  - component: {fileID: -1907341146262863717}
+  - component: {fileID: 6352739888214812425}
   m_Layer: 10
   m_Name: Enemy1
   m_TagString: Untagged
@@ -102,6 +104,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  waitTimeOnWaypoint: 0
+  timeBeforeMoveToNextWaypoint: 0
 --- !u!114 &-2484887252261811752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +123,15 @@ MonoBehaviour:
   minTimeBetweenShots: 0.2
   maxTimeBetweenShots: 3
   projectileSpeed: 10
+  durationOfExplosion: 1
+  deathSfxVolume: 0.7
   lazerPrefab: {fileID: 9125355198231434967, guid: e4349ece6f9efae4a9fd383a3dd6ca36,
     type: 3}
+  deathVfxPrefab: {fileID: 2278525227904561385, guid: 332a00a2b01f89c4698837b4bc413b2f,
+    type: 3}
+  deathSfx: {fileID: 8300000, guid: 4e84279ea87b2ec4dbc4eaef2713a325, type: 3}
+  shootSfx: {fileID: 8300000, guid: a2109c3dccb1f47419f2289f657baddd, type: 3}
+  shootSfxVolume: 0.5
 --- !u!58 &-4714047320183899323
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -131,9 +142,48 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.485
+--- !u!50 &-1907341146262863717
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2630581712331979046}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &6352739888214812425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2630581712331979046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80b93f29764c174e8f1ed5b9659695d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 200
+  deathSfx: {fileID: 8300000, guid: 4e84279ea87b2ec4dbc4eaef2713a325, type: 3}
+  deathVfxPrefab: {fileID: 2278525227904561385, guid: ed7c5811e47313846bfc05b819f95dc3,
+    type: 3}
+  durationOfExplosion: 0.1
+  deathSfxVolume: 0.7

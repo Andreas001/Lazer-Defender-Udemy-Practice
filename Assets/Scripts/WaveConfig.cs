@@ -18,6 +18,8 @@ public class WaveConfig : ScriptableObject
     int numberOfEnemies = 5;
     [SerializeField]
     float moveSpeed = 2f;
+    [SerializeField]
+    float waitTimeOnWaypoint = 0.1f;
     #endregion
 
     #region Getters
@@ -45,6 +47,10 @@ public class WaveConfig : ScriptableObject
 
     public float GetMoveSpeed() {
         return moveSpeed;
+    }
+
+    public float GetWaitTimeOnWaypoint() {
+        return waitTimeOnWaypoint;
     }
     #endregion
 }

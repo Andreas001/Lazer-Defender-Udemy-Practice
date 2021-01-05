@@ -22,7 +22,23 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float projectileFiringPeriod = 0.1f;
 
+    [SerializeField]
+    [Range(0, 1)] float deathSfxVolume = 0.7f;
+    [SerializeField]
+    GameObject deathVfxPrefab;
+    [SerializeField]
+    AudioClip deathSfx;
+    [SerializeField]
+    float durationOfExplosion = 1f;
+    [SerializeField]
+    AudioClip shootSfx;
+    [SerializeField]
+    [Range(0, 1)] float shootSfxVolume = 0.25f;
+
     Coroutine firingCoroutine;
+
+    [SerializeField]
+    GameObject level;
 
     float xMin;
     float xMax;
@@ -86,6 +102,7 @@ public class Player : MonoBehaviour
         while (true) {
             GameObject lazer = Instantiate(lazerPrefab, transform.position, Quaternion.identity) as GameObject;
             lazer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+            AudioSource.PlayClipAtPoint(shootSfx, Camera.main.transform.position, shootSfxVolume);
             yield return new WaitForSeconds(projectileFiringPeriod);
         }
     }
@@ -101,8 +118,20 @@ public class Player : MonoBehaviour
         damageDealer.Hit();
 
         if (health <= 0) {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die() {
+        FindObjectOfType<Level>().LoadGameOver();
+        Destroy(gameObject);
+        GameObject explosion = Instantiate(deathVfxPrefab, transform.position, transform.rotation);
+        Destroy(explosion, durationOfExplosion);
+        AudioSource.PlayClipAtPoint(deathSfx, Camera.main.transform.position, deathSfxVolume);
+    }
+
+    public float GetHealth() {
+        return health;
     }
     #endregion
 }

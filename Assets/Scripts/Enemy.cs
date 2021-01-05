@@ -15,9 +15,23 @@ public class Enemy : MonoBehaviour
     float maxTimeBetweenShots = 3f;
     [SerializeField]
     float projectileSpeed = 15f;
+    [SerializeField]
+    float durationOfExplosion = 1f;
+    [SerializeField]
+    [Range(0, 1)] float deathSfxVolume = 0.7f;
+    [SerializeField]
+    int scoreValue = 100;
 
     [SerializeField]
     GameObject lazerPrefab;
+    [SerializeField]
+    GameObject deathVfxPrefab;
+    [SerializeField]
+    AudioClip deathSfx;
+    [SerializeField]
+    AudioClip shootSfx;
+    [SerializeField]
+    [Range(0, 1)] float shootSfxVolume = 0.25f;
     #endregion
 
     #region Unity Callback Functions
@@ -48,6 +62,7 @@ public class Enemy : MonoBehaviour
     private void Fire() {
         GameObject lazer = Instantiate(lazerPrefab, transform.position, Quaternion.identity) as GameObject;
         lazer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -projectileSpeed);
+        AudioSource.PlayClipAtPoint(shootSfx, Camera.main.transform.position, shootSfxVolume);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -61,8 +76,16 @@ public class Enemy : MonoBehaviour
         damageDealer.Hit();
 
         if (health <= 0) {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die() {
+        FindObjectOfType<GameSession>().AddToScore(scoreValue);
+        Destroy(gameObject);
+        GameObject explosion = Instantiate(deathVfxPrefab, transform.position, transform.rotation)  ;
+        Destroy(explosion, durationOfExplosion);
+        AudioSource.PlayClipAtPoint(deathSfx, Camera.main.transform.position, deathSfxVolume);
     }
     #endregion
 }

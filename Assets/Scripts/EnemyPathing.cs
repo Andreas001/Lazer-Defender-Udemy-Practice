@@ -10,6 +10,11 @@ public class EnemyPathing : MonoBehaviour
     [SerializeField]
     List<Transform> waypoints;
 
+    [SerializeField]
+    float waitTimeOnWaypoint;
+    [SerializeField]
+    float timeBeforeMoveToNextWaypoint;
+
     int waypointIndex = 0;
     #endregion
 
@@ -19,6 +24,8 @@ public class EnemyPathing : MonoBehaviour
     {
         waypoints = waveConfig.GetWaypoints();
         transform.position = waypoints[waypointIndex].transform.position;
+        waitTimeOnWaypoint = waveConfig.GetWaitTimeOnWaypoint();
+        timeBeforeMoveToNextWaypoint = waitTimeOnWaypoint;
     }
 
     void Update()
@@ -36,20 +43,29 @@ public class EnemyPathing : MonoBehaviour
     //While waypoint index is still lower than the waypoint count minus one it will keep running
     //Do a simple move towards target that is the next waypoint
     //Waypoint is increased by one at the end
+    //Wait for a set amount of time before moving to the next waypoint
     //If there are no more waypoints the gameobject is destroyed
     private void Move() {
         if (waypointIndex <= waypoints.Count - 1) {
             var targetPosition = waypoints[waypointIndex].transform.position;
             var movementThisFrame = waveConfig.GetMoveSpeed() * Time.deltaTime;
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementThisFrame);
-
+            
             if (transform.position == targetPosition) {
-                waypointIndex += 1;
+                timeBeforeMoveToNextWaypoint -= Time.deltaTime;
+                if(timeBeforeMoveToNextWaypoint <= 0) {
+                    timeBeforeMoveToNextWaypoint = waitTimeOnWaypoint;
+                    waypointIndex += 1;
+                }
             }
         }
         else {
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator Wait(float time) {
+        yield return new WaitForSeconds(time);
     }
     #endregion
 }

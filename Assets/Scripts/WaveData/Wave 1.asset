@@ -20,3 +20,4 @@ MonoBehaviour:
   spawnRandomfactor: 0.3
   numberOfEnemies: 5
   moveSpeed: 8
+  waitTimeOnWaypoint: 0

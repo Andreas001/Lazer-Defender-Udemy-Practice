@@ -119,6 +119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
+  deathSfx: {fileID: 8300000, guid: 4e84279ea87b2ec4dbc4eaef2713a325, type: 3}
+  deathVfxPrefab: {fileID: 0}
+  durationOfExplosion: 0.1
+  deathSfxVolume: 0.7
 --- !u!70 &4359422899693312042
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

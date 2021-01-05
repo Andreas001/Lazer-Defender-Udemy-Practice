@@ -96,13 +96,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23dd8c8f802ebfc42a395d5b77b60bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 1000
   moveSpeed: 10
   padding: 1
   projectileSpeed: 30
   lazerPrefab: {fileID: 713827893777063863, guid: 87f75aff2e1481147a6f632a9a8baf49,
     type: 3}
   projectileFiringPeriod: 0.1
+  deathSfxVolume: 0.7
+  deathVfxPrefab: {fileID: 2278525227904561385, guid: 332a00a2b01f89c4698837b4bc413b2f,
+    type: 3}
+  deathSfx: {fileID: 8300000, guid: 4e84279ea87b2ec4dbc4eaef2713a325, type: 3}
+  durationOfExplosion: 1
+  shootSfx: {fileID: 8300000, guid: fbd0c2b03f614d14fa981a1afe05d0e4, type: 3}
+  shootSfxVolume: 0
+  level: {fileID: 6972280000736500953, guid: f75a53b3f7784d840a2c40a2f4e81207, type: 3}
 --- !u!60 &7237805205831267166
 PolygonCollider2D:
   m_ObjectHideFlags: 0
